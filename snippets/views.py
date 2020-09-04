@@ -100,13 +100,17 @@ def snippet_detail_api(request, pk, format=None):
 
 class SnippetViewSet(viewsets.ModelViewSet):
     """
-    this class automatically provides CRUD actions.
-    Additionally we will add extra 'highlight' action.
+    This viewset automatically provides `list`, `create`, `retrieve`,
+    `update` and `destroy` actions.
+
+    Additionally we also provide an extra `highlight` action.
     """
     queryset = Snippet.objects.all()
     serializer_class = SnippetSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly]
 
-    @action(detail=True, renderer_class=[renderers.StaticHTMLRenderer])
+    @action(detail=True, renderer_classes=[renderers.StaticHTMLRenderer])
     def highlight(self, request, *args, **kwargs):
         snippet = self.get_object()
         return Response(snippet.highlighted)
@@ -119,5 +123,5 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     """
     this viewset provides automatically 'list' and 'detail' actions.
     """
-    query = User.objects.all()
+    queryset = User.objects.all()
     serializer_class = UserSerializer
