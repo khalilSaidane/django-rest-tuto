@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from graphene_django.views import GraphQLView
 from rest_framework import routers
 from quickstart.api import views
 
@@ -28,4 +29,5 @@ urlpatterns = [
     url('', include(router.urls)),
     url('^api-auth/', include('rest_framework.urls')),
     url('^api/', include('snippets.urls')),
+    url(r"graphql", GraphQLView.as_view(graphiql=True)),
 ]

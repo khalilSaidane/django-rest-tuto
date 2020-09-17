@@ -14,6 +14,7 @@ from rest_framework.views import APIView
 from rest_framework import mixins
 from rest_framework.reverse import reverse
 from rest_framework import renderers
+from rest_framework_swagger.views import get_swagger_view
 
 from snippets.models import Snippet
 from snippets.permissions import IsOwnerOrReadOnly
@@ -125,3 +126,6 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+
+schema_view = get_swagger_view(title='Pastebin API')
